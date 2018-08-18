@@ -1,0 +1,75 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<body>
+	<div class='header'>
+        <p>招聘信息处理结果可视化</p>
+    </div>
+    <div class="content">
+        <div class="nav">
+            <ul>
+                <li class="current"><a href="/sp/visualization/">对大数据需求最剧烈的行业</a></li>
+                <li><a href="/sp/visualization/?lb=1">IT行业工资最高的10个城市</a></li>
+                <li><a href="/sp/visualization/?lb=2">不同IT职位的需求量和月薪</a></li>
+                <li><a href="/sp/visualization/?lb=3">不同大数据职位需求量和月薪</a></li>
+                <li><a href="/sp/visualization/?lb=4">不同城市大数据需求量和月薪</a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="title">对大数据需求最剧烈的行业</div>
+            <div class="show">
+                <div class='chart-type'>饼图</div>
+                <div id="main"></div>
+            </div>
+        </div>
+    </div>
+<script>
+//基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('main'));
+// 指定图表的配置项和数据
+var lst={{ data|safe }};
+var name_lst={{ name|safe }};
+option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+        data:name_lst
+    },
+    series: [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:lst
+        }
+    ]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+</script>
+</body>
+{% endblock body %}

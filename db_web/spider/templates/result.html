@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .dw_wp{position:relative;width:1002px;margin:0 auto 10px}
+
+        div.search {margin:0 auto;height:170px;width:627px;position: relative;top:50px}
+        select.website {height: 35px;width: 80px;}
+        input.content {height: 29px;width: 400px;margin-left: -6px;}
+        input.search {height: 35px;width: 100px;margin-left: -7px;}
+
+        body,div,ul{font-family:PingFang SC,Microsoft YaHei,Lantinghei SC,Helvetica Neue,Helvetica,Arial,\\5FAE\8F6F\96C5\9ED1,STHeitiSC-Light,simsun,\\5B8B\4F53,WenQuanYi Zen Hei,WenQuanYi Micro Hei,"sans-serif";margin:0;padding:0;border:0}
+        a{cursor:pointer;color:#151515}a,a:hover,a:link,a:visited{text-decoration:none}a:hover,a:hoveri{color:#3697fc}
+        a,input,input:focus{outline:none}
+        li,ul{list-style:none}:link img,:visited img,a img{border:0;outline:none}
+
+        #search{width:1000px;background:#fff;margin:0 auto;margin-bottom:10px;padding:10px 30px 0 15px;box-sizing:border-box;border:1px solid #eee}
+        #search .div_border{width:100%;padding:20px 0;border-bottom:1px solid #eee}
+        #search .div_border .itemName{float:left;font-weight:700;width:42px;line-height:28px;box-sizing:border-box;font-family:PingFangSC-Medium,Microsoft YaHei;font-size:14px;color:#333}
+        #search .div_border .itemContent{margin-left:10px;box-sizing:border-box;padding-left:16px;line-height:17px;font-family:PingFangSC-Regular,Microsoft YaHei;font-size:12px;color:#666;letter-spacing:0}
+        #search .div_border:last-child{border-bottom:none}
+
+        #queryCityBox{width:100%}
+        #queryCityBox #queryTitleUls li{float:left;margin-right:10px}
+
+        .clearfix:after{content:"";display:block;height:0;clear:both;visibility:hidden}
+        .clearfix{zoom:1;display:block}
+
+        .cityChild{width:100%;background:#fff;box-sizing:border-box;position: relative;left:10px;top:-5px}
+        .cityChild .choiseCity{width:100%;margin-top:4px;padding:4px 10px;box-sizing:border-box;background:#f7f7f7}
+        .cityChild .choiseCity .cityItemBox{float:left;width:50px;height:20px;line-height:20px;margin:5px 10px;margin-left:0}
+        .cityChild .choiseCity .other_cityLi i{position:absolute;right:12px;top:6px;display:inline-block;width:8px;height:8px;cursor:pointer;background:url("//img03.zhaopin.cn/job-site/img/job-site-sprite.png") -290px -80px}
+        .cityChild .choiseCity .other_cityLi .search-list li{cursor:pointer;height:30px;line-height:30px;padding-left:10px;background:#fff;border-bottom:1px solid #e6e8ec}
+        .cityChild .choiseCity .other_cityLi .search-list li a{color:#666;font-size:12px}
+        .cityChild .choiseCity .other_cityLi .search-list li:hover{background:#f7f7f7}
+
+        .zp-query{display:inline-block;font-family:PingFangSC-Regular,Microsoft YaHei;font-size:12px;color:#666;letter-spacing:0;padding:0 4px;box-sizing:border-box;border-radius:2px;background:transparent;cursor:pointer;line-height:25px}
+        .zp-query:hover{color:#1787fb}
+        .zp-queryChecked{display:inline-block;font-family:PingFangSC-Regular,Microsoft YaHei;font-size:12px;letter-spacing:0;padding:0 4px;line-height:25px;box-sizing:border-box;border-radius:2px;background:#1787fb;color:#fff;cursor:pointer}
+        .zp-queryChecked:hover{color:#fff}
+
+        .query_salary_box{overflow:hidden}
+        .query_salary_box .salary_all{float:left;line-height:25px;padding:0 4px;font-family:PingFangSC-RegularMicrosoft YaHei;background:#1787fb;border-radius:2px;font-size:12px;color:#fff;letter-spacing:.61px;margin-right:10px;margin-top:2px;cursor:pointer}
+        .query_salary_box .salaryUls{box-sizing:border-box;overflow:hidden}
+        .query_salary_box .salaryUls .salaryLi{float:left;margin-right:10px;box-sizing:border-box;line-height:30px;}
+
+        .dw_table{position:relative;top: 20px;color:#999;background-color:#FFF}
+        .dw_table .el{height:40px;line-height:40px;font-size:14px;overflow:hidden;padding:0 5px;border-bottom:1px dotted #e8e8e8}
+        .dw_table .el:hover{background-color:#F7F7F7}
+        .dw_table .title{height:30px;line-height:30px;text-align:center;border-bottom:1px solid #e8e8e8}
+        .dw_table .title:hover{background-color:#fff}
+        .dw_table .title span{height:30px;line-height:30px;font-size:12px;color:#999}
+        .dw_table .t1,.dw_table .t2,.dw_table .t3,.dw_table .t4{float:left;height:40px;line-height:40px;font-size:14px;overflow:hidden;padding:0 10px}
+        .dw_table .t1{position:relative;width:315px;color:#FF6000}
+        .dw_table .t1 span{float:left;max-width:285px}
+        .dw_table .t1 span a{float:left;max-width:285px;font-size:16px;color:#333;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+        .dw_table .t1 a:visited{color:#999}
+        .dw_table .t1 a:active,.dw_table .t1 a:hover{color:#ff6000}
+        .dw_table .t2{width:255px;color:#666;text-align:center}
+        .dw_table .t3{width:100px;text-align:center}
+        .dw_table .t4{width:130px;font-size:16px;color:#FF6000;text-align:center}
+
+        .dw_line{position:relative;height:1px;top:-1px;background-color:#e8e8e8}
+
+        .dw_page{position:relative;height:30px;line-height:30px;font-size:12px;color:#666;overflow:hidden;padding:15px 0 30px}
+        .dw_page .p_box{position:absolute;width:200%;left:-50%}
+        .dw_page .p_wp{position:absolute;margin-left:50%}
+        .dw_page .p_in{position:relative;float:left;left:-50%}
+        .dw_page ul{float:left;font-size:14px}
+        .dw_page ul{height:30px}
+        .dw_page li{float:left;width:30px;height:30px;line-height:30px;text-align:center;margin-right:10px;background-color:#FFF}
+        .dw_page li a{display:block;width:30px;font-size:12px;color:#666;border:1px solid #e8e8e8}
+        .dw_page li a:hover{color:#FF6000;border-color:#FF6000}
+        .dw_page li.bk,.dw_page li.bk a{width:64px}
+        .dw_page li.bk span{display:block;color:#BBB;font-size:12px;border:1px solid #e8e8e8}
+
+        .footer{clear:both;width:100%;height: 100px}
+
+    </style>
+
+</head>
+
+<body>
+    <div class="dw_wp">
+        <div class="search">
+            <form action="{% url 'spider:search_disp' %}"  method="post">
+                {% csrf_token %}
+                <select class="website" name="website">
+                <option value="zlzp" selected>智联招聘</option>
+                <option value="qtzp">前途无忧</option>
+                <option value="lgzp">拉钩网</option>
+                </select>
+                <input class="content" name="keyword" placeholder="  请输入搜索内容" autocomplete="off"/>
+                <input class="search" type="submit" value="搜索" />
+            </form>
+        </div>
+
+        <div id="search">
+            <div class="div_border">
+                <div class="itemName">地点:</div>
+                <div class="itemContent ">
+                    <div id="queryCityBox">
+                        <div class="cityChild">
+                            <ul class="choiseCity clearfix">
+                                <li class="cityItemBox"><a class="zp-query zp-queryChecked" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city=全国">全国</a></li>
+                                {% for i in city_lst %}
+                                <li class="cityItemBox"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city={{ i }}">{{ i }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+
+            <div class="div_border">
+                <div class="itemName">月薪:</div>
+                <div class="itemContent">
+                    <div class="query_salary_box">
+                        <a class="salary_all" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=-1&sh=-1&city={{ city }}">不限</a>
+                        <ul class="salaryUls">
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=1001&sh=2000&city={{ city }}">1K-2K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=2001&sh=4000&city={{ city }}">2K-4K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=4001&sh=6000&city={{ city }}">4K-6K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=6001&sh=8000&city={{ city }}">6K-8K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=8001&sh=10000&city={{ city }}">8K-10K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=10001&sh=15000&city={{ city }}">10K-15K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=15001&sh=25000&city={{ city }}">15K-25K</a></li>
+                            <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=25001&sh=35000&city={{ city }}">25K-35K</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+        <div class="dw_table">
+            <div class="el title">
+                <span class="t1">职位名</span>
+                <span class="t2">工作经验</span>
+                <span class="t3">工作地点</span>
+                <span class="t4">薪资</span>
+            </div>
+            {% for i in result %}
+            <div class="el">
+                <p3 class="t1"><span><a title="{{ i.name }}" onmousedown="" href="{% url 'spider:details' ws i.url %}">{{ i.name }}</a></span></p3>
+                <span class="t2">{{ i.exp }}</span>
+                <span class="t3">{{ i.city }}</span>
+                <span class="t4">{{ i.salary }}</span>
+            </div>
+            {% endfor %}
+
+            <div class="dw_line"></div>
+
+            <div class="dw_page">
+                <div class="p_box">
+                    <div class="p_wp">
+                        <div class="p_in">
+                            <ul>
+                                {% if previous %}
+                                <li class="bk"><a href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city={{ city }}&pn={{ previous }}">上一页</a></li>
+                                {% endif %}
+                                {% for i in page_lst %}
+                                <li><a href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city={{ city }}&pn={{i}}">{{ i }}</a></li>
+                                {% endfor %}
+                                <li class="bk"><a href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city={{ city }}&pn={{ next }}">下一页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer"></div>
+    </div>
+</body>
+</html>

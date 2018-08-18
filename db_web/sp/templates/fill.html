@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body{font:12px/1 "微软雅黑",Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif}
+        #resume{width:1200px;margin:0 auto;position: relative;top:100px}
+        #resume .inputBox{width:600px;margin:0 auto;margin-bottom:20px}
+        #resume .rs_div{position:relative;display:inline-block;*display:inline;*zoom:1;vertical-align:top;margin-right:15px;*z-index:998}
+        #resume .radioBox{width:1200px;margin:0 auto;margin-bottom:20px}
+        #resume .radio_div{position:relative;display:inline-block;*display:inline;vertical-align:top;margin-right:15px;left:380px;width: 700px}
+        #resume .rs_input{width:280px;border:1px solid #32c5cd!important;margin:0;padding:0;height:30px;autocomplete:"off";font-family: "微软雅黑";font-size:14px;padding-left: 5px}
+        #resume .rs_textarea{font-family: "微软雅黑";width:275px;height:100px;border:1px solid #32c5cd!important;margin:0;padding:0;resize: none;font-size:14px;padding:5px 5px 5px 5px}
+        .rs_input:focus{border:1px solid #32c5cd!important;}
+        #resume span{width:162px;text-align:right;display:inline-block;*display:inline;*zoom:1;vertical-align:top;height:32px;line-height:32px;font-size:14px;margin-right:20px;color:#333333}
+        #resume label{width:110px;text-align:left;display:inline-block;*display:inline;*zoom:1;vertical-align:top;line-height:32px;font-size:14px;margin-right:20px;color:#333333}
+
+        #sub{height:40px;width: 120px;background: deepskyblue;font-family: "微软雅黑";font-size:14px;color: #FFFFFF;border:none}
+        #sub:hover{border-bottom:solid 1px #333}
+        .sub{height:40px;width: 120px;margin:0 auto;margin-top: 50px}
+
+    </style>
+</head>
+<body>
+    <div id="resume">
+        <form action="{% url 'sp:salary' %}" method="post">
+            {% csrf_token %}
+            <div class="inputBox">
+                <span>学历：</span>
+                <div class="rs_div">
+                    <input class="rs_input" name="education" type="text" value="">
+                </div>
+            </div>
+
+            <div class="inputBox">
+                <span>城市：</span>
+                <div class="rs_div">
+                    <input class="rs_input" name="city" type="text">
+                </div>
+            </div>
+
+            <div class="inputBox">
+                <span>个人简介：</span>
+                <div class="rs_div">
+                    <textarea class="rs_textarea" name="introduce" type="text"></textarea>
+                </div>
+            </div>
+            <div class="inputBox">
+                <span>希望从事的工作：</span>
+            </div>
+            <div class="radioBox">
+                <div class="radio_div">
+                    {% for i in position %}
+                    <label><input type="radio" name="job" value="{{i}}">{{ i }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+             <div class="inputBox">
+                <span>工作经验：</span>
+            </div>
+            <div class="radioBox">
+                <div class="radio_div">
+                    {% for i in exp %}
+                    <label><input type="radio" name="exp" value="{{i}}">{{ i }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="sub">
+                <input id="sub" type=submit name="submit1" value="提交"/>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

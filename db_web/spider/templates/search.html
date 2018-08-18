@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        div.search
+        {
+            margin:0 auto;
+            height:36px;
+            width:627px;
+            position: relative;
+            top:90px;
+        }
+        select.website
+        {
+            height: 37px;
+            width: 125px;
+        }
+        input.content
+        {
+            height: 31px;
+            width: 400px;
+            margin-left: -6px;
+        }
+        input.search
+        {
+            height: 37px;
+            width: 100px;
+            margin-left: -7px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search">
+        <form action="{% url 'spider:search_disp' %}"  method="post">
+            {% csrf_token %}
+            <select class="website" name="website">
+                <option value="zlzp" selected>智联招聘</option>
+                <option value="qtzp">前途无忧</option>
+                <option value="lgzp">拉钩网</option>
+            </select>
+            <input class="content" name="keyword" placeholder="  请输入搜索内容" autocomplete="off"/>
+            <input class="search" type="submit" value="搜索" />
+        </form>
+    </div>
+</body>
+</html>

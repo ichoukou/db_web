@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Jobs_single</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Seeking Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="{% static 'css/bootstrap-3.1.1.min.css' %}" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Custom Theme files -->
+<link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
+<!----font-Awesome----->
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+<!----font-Awesome----->
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container">
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+	        </button>
+	    </div>
+	    <!--/.navbar-header-->
+	    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+	        <ul class="nav navbar-nav">
+		        <li><a href="{{ referer }}">返回上一页</a></li>
+		        <li><a href="{% url 'spider:index' %}">返回首页</a></li>
+	        </ul>
+	    </div>
+	    <div class="clearfix"> </div>
+	  </div>
+	    <!--/.navbar-collapse-->
+	</nav>
+<div class="container">
+    <div class="single">  
+	   <div class="col-md-9 single_right">
+		   <p>{{ result.desp }}</p>
+		   <p>工作经验: {{ result.exp }}</p>
+	       <p>学历要求: {{ result.edu }}</p>
+		   <p>工作城市: {{ result.city }}</p>
+		   <p>工资: {{ result.salary }}</p>
+       </div>
+       <div class="clearfix"> </div>
+    </div>
+</div>
+</body>
+</html>	

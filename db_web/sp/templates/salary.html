@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body{font:12px/1 "微软雅黑",Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif}
+        #result{width:1000px;margin:0 auto}
+        #result .blank{width:978px;height:103px}
+        #result .show{width:978px;height:103px;border:1px solid #ccc;border-top:5px solid #32c5cd;position:fixed;top:0;z-index:3000;background:#f9fefe;magin:0 auto;padding:12px 20px 0 24px;left:50%;margin-left:-512px}
+        #result .show .job{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:390px;height:32px;line-height:32px;display:inline-block;*display:inline;*zoom:1;color:#333;font-size:26px;vertical-align:top;margin-right:30px}
+        #result .show .experience{width:690px;height:32px;line-height:32px;font-size:14px;color:#777;white-space:nowrap;text-overflow:ellipsis;}
+        #result .show .education{width:978px;height:26px;display:inline-block;*display:inline;*zoom:1;vertical-align:bottom;padding-right:10px;font-size:18px;line-height:26px;color:#34b6bd}
+        #result .sub{margin:20px auto;text-align:center;}
+        #result .sub input{margin:20px auto;text-align:center;width:120px;height:40px;text-align:center;color:#fff;background:#32c5cd;font-size:16px;line-height:40px;border:none;font-family:"Microsoft Yahei"}
+        #result .data{width:960px;height:660px;margin:0 auto;border:1px solid #eaeaea;}
+        #result .container{margin:0 auto;padding:12px 20px 0 24px}
+        #result .container .blank{height:50px}
+    </style>
+    <script src="{% static 'vt/js/echarts.min.js' %}"></script>
+</head>
+<body>
+    <div id="result">
+        <div class="blank"></div>
+        <div class="show">
+            <div>
+                <span title="" class="job">工作：{{position}}</span>
+                <span title="" class="job">城市：{{city}}</span>
+            </div>
+            <div class="experience">
+                工作经验：{{exp}}
+            </div>
+            <div class="education">
+                学历：{{edu}}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="blank"></div>
+            <div class="data" id="main">
+            </div>
+            <div class="sub">
+                <a href="{% url 'sp:fill' %}"><input id="" type="button" value="再测一次"/></a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+// 指定图表的配置项和数据
+
+var info_lst=['您所在城市的平均工资','您所选职位的平均工资','预测所得您的工资约为'];
+var sal_lst={{ data|safe }}
+option = {
+    color: ['#3398DB'],
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : info_lst,
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'工资',
+            type:'bar',
+            barWidth: '60%',
+            data:sal_lst
+        }
+    ]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+</script>
+</html>
