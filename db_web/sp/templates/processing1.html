@@ -1,69 +1,68 @@
 {% load static %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 <head>
+<title>Jobs_single</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>锁定列</title>
-<!--框架必需start-->
-<script type="text/javascript" src="{% static 'qu/js/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static 'qu/js/language/cn.js' %}"></script>
-<script type="text/javascript" src="{% static 'qu/js/framework.js' %}"></script>
-<link href="{% static 'qu/css/import_basic.css' %}" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" type="text/css" id="skin" prePath="{% static 'qu/' %}"/>
-<link rel="stylesheet" type="text/css" id="customSkin"/>
-<!--框架必需end-->
-
-<!--数据表格start-->
-<script src="{%  static 'qu/js/table/quiGrid.js' %}" type="text/javascript"></script>
-<!--数据表格end-->
-<style>
-.l-grid-row-cell{
-	border-right:0;
-	border-bottom: 1px dotted #cccccc;
-}
-
-.appendRowContent{
-	text-align:left;
-	color:red;
-}
-.l-grid-row-cell-appendRow{
-	border-bottom: 1px solid #cdc9c3;
-	height:45px;
-}
-
-</style>
+<meta name="keywords" content="Seeking Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="{% static 'css/bootstrap-3.1.1.min.css' %}" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Custom Theme files -->
+<link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
+<!----font-Awesome----->
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+<!----font-Awesome----->
 </head>
 <body>
-<div class="page_content">
-	<div class="groupTitle"><span>示例说明</span></div>
-	附加行中可以放置长文本、比较多的操作按钮等内容。
-	<div id="maingrid"></div>
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container">
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+	        </button>
+	    </div>
+	    <!--/.navbar-header-->
+	    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+	        <ul class="nav navbar-nav">
+		        <li><a href="{% url 'index' %}">返回导航页</a></li>
+	        </ul>
+	    </div>
+	    <div class="clearfix"> </div>
+	  </div>
+	    <!--/.navbar-collapse-->
+	</nav>
+<div class="container">
+    <div class="single">  
+	   <div class="col-md-9 single_right">
+
+		   <p>{{ explain1 }}</p>
+
+		   <span>{{agg_pro1}}</span>
+           <p>{{ data.agg1 }}</p>
+
+           <span>{{nd_pro1}}</span>
+            <p>{{ data.nd1 }}</p>
+
+           <span>{{ explain2 }}</span>
+
+           <span>{{agg_pro2}}</span>
+           <p>{{ data.agg2 }}</p>
+
+           <span>{{nd_pro2}}</span>
+           <p>{{ data.nd2 }}</p>
+	   </div>
+
+       <div class="clearfix"> </div>
+
+    </div>
 </div>
-<script type="text/javascript">
-    var testData={"form.paginate.pageNo":1,"form.paginate.totalRows":13,"rows":[
-  {"bank":"平安银行","card":"平安银行信用卡（8497）","id":125,"billDay":"10日","repayDay":"28日","cash":"￥5,000.00"},
-  {"bank":"平安银行","card":"平安银行信用卡（0496）","id":126,"billDay":"7日","repayDay":"28日","cash":"￥10,000.00"},
-  {"bank":"招商银行","card":"招商银行信用卡（0544）","id":127,"billDay":"20日","repayDay":"25日","cash":"￥12,000.00",},
-  {"bank":"招商银行","card":"招商银行信用卡（6782）","id":128,"billDay":"15日","repayDay":"25日","cash":"￥15,000.00","appendRowHtml":'岗位职责：1、  负责配合项目部销售人员完成与用户的技术沟通、挖掘用户需求、引导用户技术和产品的选择；2、  负责方案的技术咨询、培训与产品推广； 3、  针对招投标进行相关的方案设计（技术方案、配置方案、深化图纸等）、标书设计、技术答疑、客户培训、演示环境搭建测试、竞争对手分析；'}
-  ]}
-
-   //数据表格使用
-    var g;
-	function initComplete(){
-		 g = $("#maingrid").quiGrid({
-            columns: [
-                { display: '银行', name: 'bank', align: 'center',  width: 200},
-                { display: '信用卡', name: 'card', align: 'center' , width: "30%"},
-                { display: '账单日', name: 'billDay',  align: 'center' , width: "30%"},
-                { display: '还款日', name: 'repayDay',  align: 'center', width: "20%" },
-                { display: '取现额度', name: 'cash',  align: 'center', width: "20%" }
-            ], data:testData, pageSize: 10, rownumbers:true, checkbox:true,percentWidthMode:true,
-            height: '100%', width:"100%",alternatingRow:false,rowHeight:45,headerRowHeight:45
-
-
-        });
-	}
-
-</script>
 </body>
-</html>
+</html>	

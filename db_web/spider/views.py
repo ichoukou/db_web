@@ -35,6 +35,7 @@ def search(request):
         previous=int(page_cot)-1
     next=int(page_cot)+1
     if website=='zlzp':
+        # zlzp=1
         if salaryl=='-1' or salaryh=='-1':
             result=get_zlzp(keyword=keyword,cot=page_cot,city=city)
         else:

@@ -76,29 +76,29 @@ WSGI_APPLICATION = 'db_web.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_web',
-        'USER': 'home',
-        'PASSWORD': 'mysql985247',
-        'HOST': '123.56.1.161',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'db_web',
+        # 'USER': 'home',
+        # 'PASSWORD': 'mysql985247',
+        # 'HOST': '123.56.1.161',
+        # 'PORT': '3306'
     },
-    'db1':{
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'zp',
-        'USER': 'home',
-        'PASSWORD': 'mysql985247',
-        'HOST': '123.56.1.161',
-        'PORT': '3306'
-    },
+    # 'db1':{
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'zp',
+    #     'USER': 'home',
+    #     'PASSWORD': 'mysql985247',
+    #     'HOST': '123.56.1.161',
+    #     'PORT': '3306'
+    # },
     'db2': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'data_analysis',
-        'USER': 'home',
-        'PASSWORD': 'mysql985247',
-        'HOST': '123.56.1.161',
+        'NAME': 'zp',
+        'USER': 'root',
+        'PASSWORD': '19985247',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
@@ -108,7 +108,6 @@ DATABASE_ROUTERS = ['db_web.database_router.DatabaseAppsRouter']
 DATABASE_APPS_MAPPING = {
     # example:
     #'app_name':'database_name',
-    'spider': 'db1',
     'sp':'db2'
 }
 

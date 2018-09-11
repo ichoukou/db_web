@@ -86,12 +86,12 @@
         <div class="search">
             <form action="{% url 'spider:search_disp' %}"  method="post">
                 {% csrf_token %}
-                <select class="website" name="website">
+                <select class="website" name="website" id="website">
                 <option value="zlzp" selected>智联招聘</option>
                 <option value="qtzp">前途无忧</option>
                 <option value="lgzp">拉钩网</option>
                 </select>
-                <input class="content" name="keyword" placeholder="  请输入搜索内容" autocomplete="off"/>
+                <input class="content" name="keyword" placeholder="{{keyword}}" autocomplete="off"/>
                 <input class="search" type="submit" value="搜索" />
             </form>
         </div>
@@ -102,7 +102,7 @@
                 <div class="itemContent ">
                     <div id="queryCityBox">
                         <div class="cityChild">
-                            <ul class="choiseCity clearfix">
+                            <ul class="choiseCity clearfix" id="citybox">
                                 <li class="cityItemBox"><a class="zp-query zp-queryChecked" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city=全国">全国</a></li>
                                 {% for i in city_lst %}
                                 <li class="cityItemBox"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl={{ sl }}&sh={{ sh }}&city={{ i }}">{{ i }}</a></li>
@@ -118,8 +118,9 @@
                 <div class="itemName">月薪:</div>
                 <div class="itemContent">
                     <div class="query_salary_box">
-                        <a class="salary_all" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=-1&sh=-1&city={{ city }}">不限</a>
-                        <ul class="salaryUls">
+
+                        <ul class="salaryUls" id="salarybox">
+                            <li class="cityItemBox"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=-1&sh=-1&city={{ city }}">不限</a></li>
                             <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=1001&sh=2000&city={{ city }}">1K-2K</a></li>
                             <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=2001&sh=4000&city={{ city }}">2K-4K</a></li>
                             <li class="salaryLi"><a class="zp-query" href="/spider/search/?kw={{ keyword }}&ws={{ ws }}&sl=4001&sh=6000&city={{ city }}">4K-6K</a></li>
@@ -174,5 +175,53 @@
 
         <div class="footer"></div>
     </div>
+    <script>
+        var webst="{{ ws|safe }}";
+        if (webst==='zlzp'){
+            document.getElementById('website').value='zlzp'
+        }else if (webst==='lgzp'){
+            document.getElementById('website').value='lgzp'
+        }else {
+            document.getElementById('website').value='qtzp'
+        }
+
+        var city="{{ city|safe }}";
+        var citybox=document.getElementById('citybox').children;
+        for (i=0;i<citybox.length;i++){
+            if (citybox[i].textContent===city){
+                citybox[i].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else{
+                citybox[i].children[0].setAttribute('class','zp-query')
+                 }
+            }
+
+        var salary="{{ sl|safe }}";
+        var salarybox=document.getElementById('salarybox').children;
+        if (salary==='-1'){
+            salarybox[0].children[0].setAttribute('class','zp-query zp-queryChecked')
+        }else{
+            salarybox[0].children[0].setAttribute('class','zp-query')
+            if (salary==='1001'){
+                salarybox[1].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='2001'){
+                salarybox[2].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='4001'){
+                salarybox[3].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='6001'){
+                salarybox[4].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='8001'){
+                salarybox[5].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='10001'){
+                salarybox[6].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='15001'){
+                salarybox[7].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }else if (salary==='25001'){
+                salarybox[8].children[0].setAttribute('class','zp-query zp-queryChecked')
+            }
+        }
+
+
+    </script>
+
 </body>
 </html>

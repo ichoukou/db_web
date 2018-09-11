@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponseRedirect
 from . import models
 import json
 import pyspark
@@ -13,7 +13,7 @@ from pyspark.sql.types import Row,StructType,StructField,StringType,IntegerType
 from pyspark.mllib.linalg import DenseVector
 # Create your views here.
 def fill_info(request):
-    lst_pos=['web','系统工程师','高级软件工程师','软件工程师','软件','软件开发','手机应用','计算机','硬件','数据挖掘','数据库工程师','单片机','嵌入式硬件','嵌入式软件','ios','安卓','android','硬件工程师','系统测试','运维','前端',
+    lst_pos=['web','系统工程师','高级软件工程师','软件工程师','手机应用','计算机','硬件','数据挖掘','数据库工程师','单片机','嵌入式硬件','嵌入式软件','ios','安卓','android','硬件工程师','系统测试','运维','前端',
              'java开发','高级硬件工程','区块链','大数据','深度学习','人工智能','机器视觉','算法','ui',
               '游戏开发','网络管理','网页设计/制作/美工','软件测试','通信','电子技术','机器人','电气工程师','自动化','电路工程',
               'cocos2d-x','物联网','系统架构','erp实施','电子工程','系统集成','集成电路','硬件测试','数据分析','射频工程','网络安全',
@@ -25,9 +25,9 @@ def salary_pre(request):
     sc=SparkContext('local','test')
     spark = SparkSession.builder.getOrCreate()
     hive_con=HiveContext(sc)
-    nd_idf=IDFModel.load('hdfs://localhost:9000/nd_idf_test')
-    agg_idf=IDFModel.load('hdfs://localhost:9000/agg_idf_test')
-    model=NaiveBayesModel.load(sc,'hdfs://localhost:9000/qtzpnymodel')
+    nd_idf=IDFModel.load('hdfs://localhost:9000/ndidf')
+    agg_idf=IDFModel.load('hdfs://localhost:9000/aggidf')
+    model=NaiveBayesModel.load(sc,'hdfs://localhost:9000/nymodel')
     # hive_con.sql('use zp')
     # testdata=hive_con.sql('select education,mon_wa,name,work_area,work_desp,work_exp,work_lable from `qtzp` where id=789')
     # testdataRDD = testdata.rdd.map(lambda i: Row(**{
@@ -51,11 +51,11 @@ def salary_pre(request):
     position=request.POST.get('job')
     exp=request.POST.get('exp')
     dataRDD=sc.parallelize([[edu,city,position,exp,introduce]])
-    schema=StructType([StructField('education',StringType(),True),StructField('work_area',StringType(),True),StructField('work_lable',
-            StringType(),True),StructField('work_exp',StringType(),True),StructField('work_desp',StringType(),True)])
-    rowRDD=dataRDD.map(lambda i:Row(i[0],i[1],i[2],i[3],i[4]))
-    dataDF=spark.createDataFrame(rowRDD,schema)
-    dataDF.show()
+    # schema=StructType([StructField('education',StringType(),True),StructField('work_area',StringType(),True),StructField('work_lable',
+    #         StringType(),True),StructField('work_exp',StringType(),True),StructField('work_desp',StringType(),True)])
+    # rowRDD=dataRDD.map(lambda i:Row(i[0],i[1],i[2],i[3],i[4]))
+    # dataDF=spark.createDataFrame(rowRDD,schema)
+    # dataDF.show()
     dataDF=dataRDD.map(lambda i:Row(**{
         'education':i[0],
         'work_area':i[1],
@@ -88,6 +88,7 @@ def salary_pre(request):
     # result=featuresRDD.map(lambda i: model.predict(i.features)).collect()       #test
     result=featuresRDD.map(lambda i:model.predict(i)).collect()
     # result=result[0]
+    spark.stop()
     sc.stop()
     city_mean=models.CSR.objects.using('db2').filter(city__contains=city)
     city_mean=city_mean[0].salary
@@ -169,5 +170,75 @@ def vt(request):
         lst=json.dumps(lst)
         return render(request,'visualization4.html',{'data':lst})
 
-def processing(request):
+def processing_page(request):
+    lst_pos = ['web', '系统工程师', '高级软件工程师', '软件工程师', '软件', '软件开发', '手机应用', '计算机', '硬件', '数据挖掘', '数据库工程师', '单片机', '嵌入式硬件',
+               '嵌入式软件', 'ios', '安卓', 'android', '硬件工程师', '系统测试', '运维', '前端',
+               'java开发', '高级硬件工程', '区块链', '大数据', '深度学习', '人工智能', '机器视觉', '算法', 'ui',
+               '游戏开发', '网络管理', '网页设计/制作/美工', '软件测试', '通信', '电子技术', '机器人', '电气工程师', '自动化', '电路工程',
+               'cocos2d-x', '物联网', '系统架构', 'erp实施', '电子工程', '系统集成', '集成电路', '硬件测试', '数据分析', '射频工程', '网络安全',
+               '半导体', 'flash']
+    lst_exp = ['10年以上', '5-10年', '3-5年', '1-3年', '无经验']
+    return render(request,'processing.html',{'position':lst_pos,'exp':lst_exp})
+
+def processing1(request):
+    if request.method!='POST':
+        return HttpResponseRedirect('/sp/processing')
+    else:
+        progress=request.POST.get('progress')
+        sc = SparkContext('local', 'test')
+        spark = SparkSession.builder.getOrCreate()
+        if progress=='1':
+            city = request.POST.get('city')
+            edu = request.POST.get('education')
+            introduce = request.POST.get('introduce')
+            position = request.POST.get('job')
+            exp = request.POST.get('exp')
+            print(city,edu,introduce,position,exp)
+            explain1='第一步：将信息按照类别形成RDD后,通过map操作，将传入的信息进行合并，转化，并根据词频进行分词处理，后形成dataframe，便于下一步操作，此时信息的状态如下'
+            dataRDD = sc.parallelize([[edu, city, position, exp, introduce]])
+            dataDF = dataRDD.map(lambda i: Row(**{
+                'education': i[0],
+                'work_area': i[1],
+                'work_lable': i[2],
+                'work_exp': i[3],
+                'work_desp': i[4]
+            })).map(lambda i: Row(**{
+                'education': str(new_edu_trans(i.education)),
+                'city': [i.work_area],
+                'work_desp': i.work_desp,
+                'work_lable': [i.work_lable],
+                'work_exp': [i.work_exp]
+            })).map(lambda i: Row(**{
+                'agg': [i.education] + i.city + i.work_lable + i.work_exp,
+                'name_and_desp': desp_text_division(i.work_desp)
+            })).toDF()
+            dct={}
+            for i in dataDF.collect():
+                dct['agg1']=i[0]
+                dct['nd1']=i[1]
+            # spark.stop()
+            # sc.stop()
+            agg_pro1='将学历,城市,职位,经验合并为一行:'
+            nd_pro1='将个人简介单独为一行:'
+            agg_pro2='学历,经验,职位,城市形成的向量:'
+            nd_pro2='个人介绍形成的向量:'
+            explain2='第二步:将形成的list通过spark的机器学习包转化包通过if-idf算法形成特征向量,便于下一步机器学习的使用'
+            nd_idf = IDFModel.load('hdfs://localhost:9000/nd_idf_test')
+            agg_idf = IDFModel.load('hdfs://localhost:9000/agg_idf_test')
+            ndtf = HashingTF(inputCol='name_and_desp', outputCol='ndFeatures', numFeatures=10240)
+            aggtf = HashingTF(inputCol='agg', outputCol='Features_agg', numFeatures=256)
+            data = ndtf.transform(dataDF)
+            data = aggtf.transform(data)
+            idfdata = nd_idf.transform(data)
+            idfdata = agg_idf.transform(idfdata)
+            for i in idfdata.collect():
+                dct['agg2']=i[3]
+                dct['nd2']=i[2]
+            spark.stop()
+            sc.stop()
+            return render(request,'processing1.html',{'data':dct,'explain1':explain1,'agg_pro1':agg_pro1,'nd_pro1':nd_pro1,
+                                                      'agg_pro2':agg_pro2,'nd_pro2':nd_pro2,'explain2':explain2})
+
+
+def test(request):
     return render(request,'processing1.html')

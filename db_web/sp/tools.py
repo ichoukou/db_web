@@ -520,13 +520,13 @@ def result_trans(result):
     elif result==2:
         return random.randint(5000,7000)
     elif result==3:
-        return random.randint(8000,10000)
+        return random.randint(7000,9000)
     elif result==4:
         return random.randint(10000,13000)
     elif result==5:
         return random.randint(13000,16000)
     else:
-        return random.randint(20000,22000)
+        return random.randint(16000,20000)
 
 
 
